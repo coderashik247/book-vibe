@@ -1,12 +1,16 @@
-import React from 'react';
-import Home from '../pages/Home/Home';
+import { Outlet } from "react-router";
+import Container from "../components/Container/Container";
+import Navbar from "../components/Navbar/Navbar";
 
 const MainLayout = () => {
-    return (
-        <>
-            <Home></Home>
-        </>
-    );
+  return (
+    <>
+      <Container>
+        <Navbar></Navbar>
+      </Container>
+      <Outlet></Outlet>
+    </>
+  );
 };
 
 export default MainLayout;
