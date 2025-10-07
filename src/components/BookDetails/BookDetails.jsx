@@ -1,12 +1,12 @@
 import React from "react";
-import { useLoaderData, useParams } from "react-router";
+import { useLoaderData, useNavigate, useParams } from "react-router";
+import { saveReadList } from "../../utils";
 
 const BookDetails = () => {
+    const navigate =useNavigate();
   const { bookId } = useParams();
-  console.log(bookId);
   const getBookId = parseInt(bookId);
   const bookData = useLoaderData();
-  console.log(bookData);
   const singleBook = bookData.find((b) => b.bookId === getBookId);
 
   const {
@@ -21,6 +21,14 @@ const BookDetails = () => {
     publisher,
     yearOfPublishing,
   } = singleBook;
+
+  console.log("Single Book: ",singleBook)
+
+  const handleMarkAsRead = (bookData) =>{
+    console.log(bookData);
+    saveReadList(bookData)
+    navigate("/listedBooks")
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-6 bg-white rounded-xl shadow-md flex flex-col md:flex-row gap-6 mt-5">
@@ -84,10 +92,10 @@ const BookDetails = () => {
 
         {/* Buttons */}
         <div className="flex gap-4">
-          <button className="px-6 py-2 border border-black text-black rounded-md hover:bg-gray-100">
+          <button onClick={() => handleMarkAsRead(singleBook)} className="px-6 py-2 border border-black text-black rounded-md hover:bg-gray-100">
             Mark as Read
           </button>
-          <button className="px-6 py-2 bg-sky-500 text-white rounded-md hover:bg-sky-600">
+          <button onClick={() => navigate("/listedBooks")} className="px-6 py-2 bg-sky-500 text-white rounded-md hover:bg-sky-600">
             Add to Wishlist
           </button>
         </div>
