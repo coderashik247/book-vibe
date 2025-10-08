@@ -1,9 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "../../components/Container/Container";
 import ReadList from "../../components/ReadList/ReadList";
+import WishCart from "../../components/WishCart/WishCart";
+import { getReadList } from "../../utils";
 
 const ListedBooks = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const [sort, setSort] = useState('');
+
+  const [readList, setReadList] = useState([]);
+
+  useEffect(() => {
+    setReadList(getReadList())
+  }, [])
+
+  const handleSort = (type) => {
+    setSort(type)
+    if(type === 'pages' ){
+        const sortedByPages = [...readList.sort((a,b) => a.totalPages - b.totalPages)];
+        setReadList(sortedByPages)
+    }
+    if(type === 'ratings'){
+        const sortedByRatings = [...readList.sort((a,b) => a.rating - b.rating)];
+        setReadList(sortedByRatings)
+    }
+  }
   return (
     <Container>
       <div>
@@ -20,10 +41,10 @@ const ListedBooks = () => {
               className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
             >
               <li>
-                <a>Item 1</a>
+                <a onClick={() => handleSort('pages')} >Pages</a>
               </li>
               <li>
-                <a>Item 2</a>
+                <a onClick={() => handleSort('ratings')}>Ratings</a>
               </li>
             </ul>
           </div>
@@ -84,8 +105,8 @@ const ListedBooks = () => {
 
         {/* Tab content */}
         <div className="mt-6">
-          {activeTabIndex === 0 && <ReadList />}
-          {/* {activeTabIndex === 1 && <WishList />} */}
+          {activeTabIndex === 0 && <ReadList books={readList} />}
+          {activeTabIndex === 1 && <WishCart />}
         </div>
       </div>
     </Container>
