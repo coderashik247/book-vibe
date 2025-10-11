@@ -6,6 +6,7 @@ import { getReadList } from "../../utils";
 
 const ListedBooks = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+  // eslint-disable-next-line no-unused-vars
   const [sort, setSort] = useState('');
 
   const [readList, setReadList] = useState([]);
@@ -17,11 +18,11 @@ const ListedBooks = () => {
   const handleSort = (type) => {
     setSort(type)
     if(type === 'pages' ){
-        const sortedByPages = [...readList.sort((a,b) => a.totalPages - b.totalPages)];
+        const sortedByPages = [...readList].sort((a,b) => a.totalPages - b.totalPages);
         setReadList(sortedByPages)
     }
     if(type === 'ratings'){
-        const sortedByRatings = [...readList.sort((a,b) => a.rating - b.rating)];
+        const sortedByRatings = [...readList] .sort((a,b) => a.rating - b.rating);
         setReadList(sortedByRatings)
     }
   }
